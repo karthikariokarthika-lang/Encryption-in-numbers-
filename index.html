@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word to Number Encryption</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #141e30, #243b55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #243b55;
+}
+
+textarea {
+    width: 95%;
+    height: 80px;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    resize: none;
+}
+
+button {
+    padding: 10px 15px;
+    margin: 10px 5px;
+    border: none;
+    border-radius: 6px;
+    background: #243b55;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background: #141e30;
+}
+
+.result {
+    margin-top: 15px;
+    font-weight: bold;
+    word-wrap: break-word;
+    color: #333;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Word ↔ Number Encryption</h2>
+
+    <textarea id="inputText" placeholder="Enter text or numbers"></textarea>
+
+    <div>
+        <button onclick="encrypt()">Encrypt (Word → Number)</button>
+        <button onclick="decrypt()">Decrypt (Number → Word)</button>
+    </div>
+
+    <div class="result" id="output"></div>
+</div>
+
+<script>
+function encrypt() {
+    let text = document.getElementById("inputText").value.toUpperCase();
+    let result = "";
+
+    for (let i = 0; i < text.length; i++) {
+        let char = text[i];
+
+        if (char >= 'A' && char <= 'Z') {
+            let number = char.charCodeAt(0) - 64;
+            result += (number < 10 ? "0" + number : number) + " ";
+        } 
+        else if (char === " ") {
+            result += "  "; // double space for word separation
+        }
+    }
+
+    document.getElementById("output").innerText = "Encrypted: " + result.trim();
+}
+
+function decrypt() {
+    let text = document.getElementById("inputText").value.trim();
+    let numbers = text.split(" ");
+    let result = "";
+
+    for (let i = 0; i < numbers.length; i++) {
+        let num = numbers[i];
+
+        if (num === "") {
+            result += " ";
+        } 
+        else {
+            let number = parseInt(num);
+            if (!isNaN(number) && number >= 1 && number <= 26) {
+                result += String.fromCharCode(number + 64);
+            }
+        }
+    }
+
+    document.getElementById("output").innerText = "Decrypted: " + result;
+}
+</script>
+
+</body>
+</html>
